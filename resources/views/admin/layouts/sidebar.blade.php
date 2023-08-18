@@ -23,7 +23,7 @@
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
-            @hasrole('super-admin')
+{{--            @hasrole('super-admin')--}}
             <li class="nav-item">
                 <a class="nav-link text-white {{ request()->routeIs('roles.*') ? 'bg-gradient-primary active' : '' }} "
                    href="{{ route('roles.index') }}">
@@ -33,7 +33,7 @@
                     <span class="nav-link-text ms-1">Role</span>
                 </a>
             </li>
-            @endhasrole
+{{--            @endhasrole--}}
             @can('show-user')
                 <li class="nav-item">
                     <a class="nav-link text-white {{ request()->routeIs('users.*') ? 'bg-gradient-primary active' : '' }} "

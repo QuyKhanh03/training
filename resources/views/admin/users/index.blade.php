@@ -28,7 +28,7 @@
                     @foreach ($users as $item)
                         <tr>
                             <td>{{ $item->id }}</td>
-                            <td><img src="{{ asset('upload/users/'.$item->image_path) }}" width="200px" height="200px" alt=""></td>
+                            <td><img src="{{ asset('upload/'.$item->image_path) }}" width="200px" height="200px" alt=""></td>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->email }}</td>
                             <td>{{ $item->phone }}</td>

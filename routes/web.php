@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('client.layouts.app');
-});
+})->name('client.home');
 
 Auth::routes();
 
@@ -29,5 +29,8 @@ Route::prefix('dashboard')->group(function() {
     })->name('dashboard');
     Route::resource('roles', App\Http\Controllers\Admin\RoleController::class);
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
-
+    Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
+    Route::resource('products', App\Http\Controllers\Admin\ProductController::class);
+    Route::resource('coupons', App\Http\Controllers\Admin\CouponController::class);
+    Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
 });

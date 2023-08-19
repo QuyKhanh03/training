@@ -13,13 +13,13 @@
                             <div class=" input-group-static col-5 mb-4">
                                 <label>Image</label>
                                 <input type="file" accept="image/*" name="image" id="image-input"  class="form-control">
-
+                                <input type="hidden" name="old_image" value="{{ $user_img->url }}">
                                 @error('image')
                                 <span class="text-danger"> {{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="col-5">
-                                <img src="{{ asset('upload/users/'. $user_img->url) }}" id="show-image" width="100px" alt="">
+                                <img src="{{ asset('upload/'. $user_img->url) }}" id="show-image" width="100px" alt="">
                             </div>
                         </div>
                     </div>

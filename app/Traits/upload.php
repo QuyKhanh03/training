@@ -4,7 +4,7 @@ namespace App\Traits;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 trait upload {
-    protected $path = 'upload/users/';
+    protected $path = 'upload/';
     public function verify($request) {
         return $request->has('image');
     }
@@ -26,9 +26,8 @@ trait upload {
         return $currentImage;
     }
     public function deleteImg($imageName) {
-        if($imageName && file_exists($this->path .$imageName))
-        {
-            Storage::delete($this->path .$imageName);
+        if ($imageName && file_exists($this->path . $imageName)) {
+            unlink($this->path . $imageName);
         }
     }
 }

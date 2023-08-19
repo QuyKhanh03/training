@@ -45,7 +45,7 @@
                     </a>
                 </li>
 {{--            @endcan--}}
-            @can('show-product')
+{{--            @can('show-product')--}}
                 <li class="nav-item">
                     <a class="nav-link text-white {{ request()->routeIs('products.*') ? 'bg-gradient-primary active' : '' }} "
                        href="{{ route('products.index') }}">
@@ -55,8 +55,8 @@
                         <span class="nav-link-text ms-1">Product</span>
                     </a>
                 </li>
-            @endcan
-            @can('show-category')
+{{--            @endcan--}}
+{{--            @can('show-category')--}}
                 <li class="nav-item">
                     <a class="nav-link text-white {{ request()->routeIs('categories.*') ? 'bg-gradient-primary active' : '' }} "
                        href="{{ route('categories.index') }}">
@@ -66,8 +66,8 @@
                         <span class="nav-link-text ms-1">Category</span>
                     </a>
                 </li>
-            @endcan
-            @can('show-coupon')
+{{--            @endcan--}}
+{{--            @can('show-coupon')--}}
                 <li class="nav-item">
                     <a class="nav-link text-white {{ request()->routeIs('coupons.*') ? 'bg-gradient-primary active' : '' }} "
                        href="{{ route('coupons.index') }}">
@@ -77,19 +77,24 @@
                         <span class="nav-link-text ms-1">Coupon</span>
                     </a>
                 </li>
-            @endcan
+{{--            @endcan--}}
 
-            @can('list-order')
+{{--            @can('list-order')--}}
                 <li class="nav-item">
                     <a class="nav-link text-white {{ request()->routeIs('admin.orders.*') ? 'bg-gradient-primary active' : '' }} "
-                       href="{{ route('admin.orders.index') }}">
+                       href="{{ route('orders.index') }}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
                         </div>
                         <span class="nav-link-text ms-1">Order</span>
                     </a>
                 </li>
-            @endcan
+
+{{--            @endcan--}}
+
+                <li class="nav-item">
+                    <a target="_blank" href="{{ route('client.home') }}" class="nav-link text-white">Visit Web</a>
+                </li>
         </ul>
     </div>
 

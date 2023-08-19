@@ -127,6 +127,7 @@ class UserController extends Controller
         $user->update($data);
         if($data['image'] != null){
             $user->images()->update(['url' => $data['image']]);
+            $this->user->deleteImg($request->old_image);
         }
         $user->roles()->sync($data['role_ids']);
         return redirect()->route('users.index')->with('success', 'Cập nhật thành công') ;
@@ -137,8 +138,11 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        $user = $this->user->findOrFail($id);
+        $user = $this->user->findOrFail($id)->load('roles');
+        $user_img = $this->user->findOrFail($id)->images()->first();
+        $this->user->deleteImg($user_img->url);
         $user->delete();
+
         return redirect()->route('users.index')->with('success', 'Xóa thành công') ;
     }
 }

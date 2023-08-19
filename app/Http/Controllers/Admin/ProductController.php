@@ -62,11 +62,17 @@ class ProductController extends Controller
                 'category_ids.required' => 'Danh mục sản phẩm không được để trống'
             ]
         );
-        $data = $request->all();
+        $data = $request->except('sizes');
+        $sizes = $request->sizes ? json_decode($request->sizes) : [];
         $product = Product::create($data);
         $data['image'] = $this->product->saveImage($request);
         $product->images()->create(['url' => $data['image']]);
         $product->categories()->attach($data['category_ids']);
+        $sizeArr = [];
+        foreach ($sizes as $size) {
+            $sizeArr[] = ['size' => $size->size, 'quantity' => $size->quantity, 'product_id' => $product->id];
+        }
+        $this->productDetail->insert($sizeArr);
 
         return redirect()->route('products.index')->with('success', 'Thêm sản phẩm thành công');
     }
@@ -76,7 +82,8 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $product = $this->product->with(['details','categories'])->findOrFail($id);
+        return view('admin.products.show', compact('product'));
     }
 
     /**
@@ -103,6 +110,9 @@ class ProductController extends Controller
         $model = $this->product->findOrFail($id);
         $model->categories()->detach();
         $model->images()->delete();
+        $product_img = $this->product->findOrFail($id)->images()->first();
+        $this->product->deleteImg($product_img->url);
+        $model->productDetail()->delete();
         $model->delete();
         return redirect()->route('products.index')->with('success', 'Xóa sản phẩm thành công');
     }

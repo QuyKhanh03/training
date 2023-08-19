@@ -21,8 +21,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/dashboard', function () {
-    return view('admin.dashboard.index');
-})->name('dashboard');
 
-Route::resource('roles', App\Http\Controllers\Admin\RoleController::class);
+
+Route::prefix('dashboard')->group(function() {
+    Route::get('/', function () {
+        return view('admin.dashboard.index');
+    })->name('dashboard');
+    Route::resource('roles', App\Http\Controllers\Admin\RoleController::class);
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class);
+
+});

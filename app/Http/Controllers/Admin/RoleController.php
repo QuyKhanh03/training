@@ -46,7 +46,14 @@ class RoleController extends Controller
         ]);
         $dataCreate = $request->all();
         $role = Role::create($dataCreate);
-        $role->permissions()->attach($request->permission_id);
+
+        foreach ($request->permission_ids as $permission) {
+            DB::table('role_has_permissions')->insert([
+                'role_id' => $role->id,
+                'permission_id' => $permission,
+            ]);
+        }
+
         return redirect()->route('roles.index')->with('success', 'Thêm mới vai trò thành công');
     }
 
@@ -64,7 +71,6 @@ class RoleController extends Controller
     public function edit(string $id)
     {
         $role = Role::with('permissions')->findOrFail($id);
-
         $permissions = Permisson::all()->groupBy('group');
         return view('admin.roles.edit', compact('role', 'permissions'));
     }
@@ -88,7 +94,13 @@ class RoleController extends Controller
         $dataUpdate = $request->all();
         $role = Role::findOrFail($id);
         $role->update($dataUpdate);
-        $role->permissions()->sync($request->permission_id);
+        foreach ($request->permission_ids as $permission) {
+            DB::table('role_has_permissions')->insert([
+                'role_id' => $role->id,
+                'permission_id' => $permission,
+            ]);
+        }
+
         return redirect()->route('roles.index')->with('success', 'Cập nhật vai trò thành công');
     }
 

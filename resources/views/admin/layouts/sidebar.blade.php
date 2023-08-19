@@ -34,7 +34,7 @@
                 </a>
             </li>
 {{--            @endhasrole--}}
-            @can('show-user')
+{{--            @can('show-user')--}}
                 <li class="nav-item">
                     <a class="nav-link text-white {{ request()->routeIs('users.*') ? 'bg-gradient-primary active' : '' }} "
                        href="{{ route('users.index') }}">
@@ -44,7 +44,7 @@
                         <span class="nav-link-text ms-1">User</span>
                     </a>
                 </li>
-            @endcan
+{{--            @endcan--}}
             @can('show-product')
                 <li class="nav-item">
                     <a class="nav-link text-white {{ request()->routeIs('products.*') ? 'bg-gradient-primary active' : '' }} "

@@ -34,6 +34,7 @@ class CartController extends Controller
     {
         //
         $cart = $this->cart->firtOrCreateBy(auth()->user()->id)->load('products');
+        return view('client.carts.index', compact('cart'));
     }
     public function removeProductInCart($id)
     {
@@ -101,9 +102,22 @@ class CartController extends Controller
         return view('client.carts.checkout', compact('cart'));
     }
 
-    public function processCheckout(CreateOrderRequest $request)
+    public function processCheckout(Request $request)
     {
-
+        $request->validate([
+            'customer_name' => 'required',
+            'customer_phone' => 'required',
+            'customer_address' => 'required',
+            'customer_email' => 'required|email',
+        ],
+        [
+            'customer_name.required' => 'Vui lòng nhập tên người nhận hàng',
+            'customer_phone.required' => 'Vui lòng nhập số điện thoại người nhận hàng',
+            'customer_address.required' => 'Vui lòng nhập địa chỉ người nhận hàng',
+            'customer_email.required' => 'Vui lòng nhập email người nhận hàng',
+            'customer_email.email' => 'Vui lòng nhập đúng định dạng email',
+        ]
+        );
         $dataCreate = $request->all();
         $dataCreate['user_id'] = auth()->user()->id;
         $dataCreate['status'] = 'pending';
@@ -121,6 +135,9 @@ class CartController extends Controller
         $cart->products()->delete();
         Session::forget(['coupon_id', 'discount_amount_price', 'coupon_code']);
 
+        return redirect()->route('client.home.index')->with([
+            'message' => 'Đặt hàng thành công',
+        ]);
     }
     /**
      * Show the form for creating a new resource.
@@ -135,7 +152,22 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $product = $this->product->findOrFail($request->product_id);
+
+        $cart = $this->cart->fisrtOrCreateBy(auth()->user()->id, $this->cart);
+        $cartProduct = $this->cartProduct->getBy($cart->id, $product->id);
+        if ($cartProduct) {
+            $quantity = $cartProduct->product_quantity;
+            $cartProduct->update(['product_quantity' => ($quantity + $request->product_quantity)]);
+        } else {
+            $dataCreate['cart_id'] = $cart->id;
+            $dataCreate['product_quantity'] = $request->product_quantity ?? 1;
+            $dataCreate['product_price'] = $product->price;
+            $dataCreate['product_id'] = $request->product_id;
+            $dataCreate['product_size'] = $request->product_size;
+            $this->cartProduct->create($dataCreate);
+        }
+        return back()->with(['message' => 'Add To Cart Success']);
     }
 
     /**

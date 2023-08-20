@@ -49,7 +49,7 @@ $(function () {
                 }
                 getTotalValue();
                 cartProductPrice;
-                $(".total-price").text(`$${cart.total_price}`);
+                $(".total-price").text(`${cart.total_price}`);
                 Swal.fire({
                     position: "top-end",
                     icon: "success",

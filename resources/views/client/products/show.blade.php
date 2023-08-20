@@ -11,12 +11,12 @@
     </div>
     <!-- Page Header End -->
     @if (session('message'))
-        <h2 class="" style="text-align: center; width:100%; color:red"> {{ session('message') }}</h2>
+        <h2 class="" style="text-align: center; width:100%; color:green"> {{ session('message') }}</h2>
     @endif
 
     <!-- Shop Detail Start -->
     <div class="container-fluid py-5">
-        <form action="" method="POST" class="row px-xl-5">
+        <form action="{{ route('client.carts.add') }}" method="POST" class="row px-xl-5">
             @csrf
             <input type="hidden" name="product_id" value="{{ $product->id }}">
             <div class="col-lg-5 pb-5">

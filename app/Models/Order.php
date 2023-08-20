@@ -19,4 +19,7 @@ class Order extends Model
         'note',
         'user_id',
     ];
+    public function getWithPaginateBy($userId){
+        return $this->whereUserId($userId)->latest('id')->paginate(10);
+    }
 }

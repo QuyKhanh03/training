@@ -29,8 +29,10 @@ Route::middleware('auth')->group(function(){
 
     Route::post('apply-coupon', [CartController::class, 'applyCoupon'])->name('client.carts.apply_coupon');
 
-    Route::get('checkout', [CartController::class, 'checkout'])->name('client.checkout.index')->middleware('user.can_checkout_cart');
-    Route::post('process-checkout', [CartController::class, 'processCheckout'])->name('client.checkout.proccess')->middleware('user.can_checkout_cart');
+    Route::get('checkout', [CartController::class, 'checkout'])->name('client.checkout.index');
+//        ->middleware('user.can_checkout_cart');
+    Route::post('process-checkout', [CartController::class, 'processCheckout'])->name('client.checkout.proccess');
+//        ->middleware('user.can_checkout_cart');
 
     Route::get('list-orders', [OrderController::class, 'index'])->name('client.orders.index');
 
@@ -50,4 +52,6 @@ Route::prefix('dashboard')->group(function() {
     Route::resource('products', App\Http\Controllers\Admin\ProductController::class);
     Route::resource('coupons', App\Http\Controllers\Admin\CouponController::class);
     Route::resource('orders', App\Http\Controllers\Admin\OrderController::class);
+    Route::post('update-status/{id}',[App\Http\Controllers\Admin\OrderController::class, 'updateStatus'])->name('admin.orders.update_status');
+
 });

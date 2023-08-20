@@ -16,9 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('client.layouts.app');
-//})->name('client.home');
 
 Route::get('/' , [App\Http\Controllers\Client\HomeController::class, 'index'])->name('client.home');
 Route::get('/category/{id}' , [App\Http\Controllers\Client\ProductController::class, 'index'])->name('client.categories.show');

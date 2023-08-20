@@ -91,7 +91,10 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $product = $this->product->with(['details','categories'])->findOrFail($id);
+        $categories = $this->category->select('id', 'name')->get();
+
+        return view('admin.products.edit', compact('categories', 'product'));
     }
 
     /**
@@ -99,7 +102,19 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $product = $this->product->findOrFail($id);
+        $dataUpdate = $request->all();
+
+        $currentImage = $product->images ? $product->images->first()->url : '';
+        $dataUpdate['image'] = $this->product->updateImg($request, $currentImage);
+        $product->update($dataUpdate);
+
+        $product->update($dataUpdate);
+        $product->images()->delete();
+        $product->images()->create(['url' => $dataUpdate['image']]);
+        $product->assignCategory($dataUpdate['category_ids']);
+
+        return redirect()->route('products.index')->with('success', 'Cập nhật sản phẩm thành công');
     }
 
     /**
